@@ -10,14 +10,6 @@ const preferencesStore = usePreferencesStore()
 
 const baseUrl = import.meta.env.BASE_URL
 
-const handleClick = event => {
-	gtag('config', 'G-7BFSQ0162D', {
-		page_path: baseUrl,
-	})
-
-	window.location.href = baseUrl
-}
-
 const isPreferencesModalShown = ref(false)
 
 const preferences = ref({
@@ -32,12 +24,21 @@ const preferences = ref({
 				<img :src="`${baseUrl}link.gif`" />
 				<h1 class="text">RO 樂園查詢工具</h1>
 			</div>
-			<a
-				:href="`${baseUrl}`"
-				class="link"
-				@click.prevent="handleClick">
-				掉落物查詢
-			</a>
+			<nav>
+				<router-link
+					to="/"
+					name="Home"
+					class="link">
+					掉落物查詢
+				</router-link>
+				｜
+				<router-link
+					to="/attribute-table"
+					name="AttributeTable"
+					class="link">
+					屬性相剋表
+				</router-link>
+			</nav>
 			<div class="settings">
 				<div
 					class="preferences"
@@ -150,22 +151,29 @@ const preferences = ref({
 			}
 		}
 
-		a.link {
-			display: none;
-			color: #e6e6e6;
-			text-decoration: none;
-			font-size: 14px;
-			line-height: 36px;
-			font-weight: bold;
-			cursor: pointer;
+		nav {
+			display: flex;
+			flex-wrap: nowrap;
+			justify-content: start;
+			align-items: center;
+			flex-grow: 1;
 
-			@media (min-width: 576px) {
-				display: block;
+			.link {
+				display: none;
+				color: #e6e6e6;
+				text-decoration: none;
+				font-size: 14px;
+				line-height: 36px;
+				font-weight: bold;
+				cursor: pointer;
+
+				@media (min-width: 576px) {
+					display: block;
+				}
 			}
 		}
 
 		.settings {
-			flex-grow: 1;
 			font-size: 18px;
 			display: flex;
 			align-items: center;
@@ -264,7 +272,7 @@ const preferences = ref({
 								}
 
 								input:checked + .slider::before {
-									transform: translateX(23px);
+									transform: translateX(22px);
 								}
 							}
 						}
