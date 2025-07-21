@@ -19,6 +19,7 @@ const filteredMonsters = ref<any[]>([])
 const monstersToShow = ref<any[]>([])
 const itemsPerLoad = 20
 
+/** 🔍 搜尋與過濾邏輯 */
 const getCleanDropName = (name: string): string => {
 	if (typeof name !== 'string') return ''
 	return name
@@ -28,7 +29,6 @@ const getCleanDropName = (name: string): string => {
 		.toLowerCase()
 }
 
-// 計算相關性分數的輔助函式
 const getRelevanceScore = (monster: any, query: string): number => {
 	const name_tw = monster.name.zh_tw.toLowerCase()
 	const id_str = monster.id.toString()
@@ -153,11 +153,11 @@ const handleScroll = () => {
 	}
 }
 
-const UPDATE_READ_KEY = 'has_seen_update_v1'
-const isNotificationShown = ref(
-	localStorage.getItem(UPDATE_READ_KEY) !== 'true'
-)
-const message = `
+/** 🔔 更新通知設定 */
+const UPDATE_VERSIONS = [
+	{
+		version: 'v1',
+		message: `
 <ul>
 	<li>卡片與武器新增「<b>規格</b>」欄位</li>
 	<li>右上角新增「
@@ -168,12 +168,45 @@ const message = `
 		是否顯示文字</li>
 	<li>怪物出現地圖的顯示方式，改為與官方資料同步</li>
 </ul>
-`
+`,
+	},
+	{
+		version: 'v2',
+		message: `
+<ul>
+	<li>新增服飾相關掉落</li>
+	<li>新增「<b>屬性相剋表</b>」頁面</li>
+</ul>
+`,
+	},
+]
+
+const unseenNotifications = ref(
+	UPDATE_VERSIONS.filter(
+		({version}) => localStorage.getItem(`has_seen_update_${version}`) !== 'true'
+	).map(notice => ({
+		...notice,
+		visible: true,
+	}))
+)
+
+const markAsSeen = (version, event) => {
+	localStorage.setItem(`has_seen_update_${version}`, 'true')
+
+	unseenNotifications.value = unseenNotifications.value.filter(
+		notice => notice.version !== version
+	)
+}
 
 onMounted(async () => {
-	if (isNotificationShown) {
-		localStorage.setItem(UPDATE_READ_KEY, 'true')
-	}
+	const validKeys = UPDATE_VERSIONS.map(
+		notice => `has_seen_update_${notice.version}`
+	)
+	Object.keys(localStorage).forEach(key => {
+		if (key.startsWith('has_seen_update_') && !validKeys.includes(key)) {
+			localStorage.removeItem(key)
+		}
+	})
 
 	window.addEventListener('scroll', handleScroll)
 
@@ -199,9 +232,16 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 		v-model:activeSize="activeSize" />
 	<MonsterList :monsters="monstersToShow" />
 	<Notification
-		v-model:isShown="isNotificationShown"
-		title="更新內容一覽"
-		:message="message" />
-
+		v-for="notice in unseenNotifications"
+		:key="notice.version"
+		v-model:isShown="notice.visible"
+		:title="`${notice.version} 更新內容一覽`"
+		:message="notice.message"
+		@update:isShown="
+			value => {
+				notice.visible = value
+				markAsSeen(notice.version)
+			}
+		" />
 	<Backtop />
 </template>

@@ -7,20 +7,16 @@ interface Props {
 	modalClass?: string
 	title?: string
 	message: string
-	//type?: 'primary' | 'success' | 'warning' | 'info' | 'error'
 	isCloseBtnShown?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
 	modalClass: '',
 	title: undefined,
-	//type: undefined,
 	isCloseBtnShown: true,
 })
 
 const emit = defineEmits(['update:isShown'])
-
-const localIsShown = ref(props.isShown)
 
 watch(
 	() => props.isShown,
@@ -32,20 +28,23 @@ watch(
 			ElNotification({
 				title: props.title,
 				message: props.message,
-				position: 'top-right',
-				//type: props.type,
 				showClose: props.isCloseBtnShown,
 				customClass: 'ro-notification',
 				offset: 40,
 				duration: 0,
 				dangerouslyUseHTMLString: true,
+				zIndex: 3,
 			})
 
 			requestAnimationFrame(() => {
-				const notification = document.querySelector('.el-notification.ro-notification') as HTMLElement
+				const notifications = document.querySelectorAll(
+					'.el-notification.ro-notification'
+				) as NodeListOf<HTMLElement>
 
-				if (notification && appRightOffset) {
-					notification.style.right = `${appRightOffset}px`
+				if (notifications && appRightOffset) {
+					notifications.forEach(notification => {
+						notification.style.right = `${appRightOffset}px`
+					})
 				}
 			})
 
@@ -67,11 +66,16 @@ defineOptions({
 
 <style lang="scss">
 .ro-notification.el-notification {
+	height: 200px;
 	background-color: #606753;
 	border-radius: 4px;
 	padding: 12px 8px;
 	border: 1px solid #b2a99f;
-	z-index: 2 !important;
+
+	.el-notification__group {
+		display: flex;
+		flex-direction: column;
+	}
 
 	.el-notification__title {
 		margin-right: 20px;
@@ -80,14 +84,39 @@ defineOptions({
 	}
 
 	.el-notification__content {
+		height: 100%;
 		background: #f9e7d0;
 		color: #000;
 		border-radius: 4px;
-		padding: 12px 8px;
+		padding: 4px;
 		box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.25);
+		overflow: hidden;
 
 		p {
+			display: block;
+			height: 100%;
 			font-size: 13px;
+			padding: 8px 4px;
+			overflow: hidden auto;
+
+			&::-webkit-scrollbar {
+				width: 4px;
+				height: 4px;
+				padding-top: 12px;
+				background: transparent;
+				visibility: hidden;
+			}
+
+			&::-webkit-scrollbar-thumb {
+				border-radius: 4px;
+				visibility: hidden;
+			}
+
+			&:hover::-webkit-scrollbar-thumb,
+			&:active::-webkit-scrollbar-thumb {
+				background: #98ae2a;
+				visibility: visible;
+			}
 		}
 	}
 
