@@ -91,7 +91,7 @@ provide('ensureItemsDatabase', ensureItemsDatabase)
 			transform: translate(-50%, 0);
 			width: 36px;
 			height: 36px;
-			background-image: url('/drops/images/ui/not-found.png');
+			background-image: url('/twroz-drop/images/ui/not-found.png');
 			background-repeat: no-repeat;
 			background-size: contain;
 		}

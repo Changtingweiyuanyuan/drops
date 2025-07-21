@@ -3,6 +3,6 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vite.dev/config/
 export default defineConfig({
-	base: '/drops/',
+	base: '/twroz-drop/',
   plugins: [vue()],
 })
