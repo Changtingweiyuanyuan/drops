@@ -379,6 +379,19 @@ function onFilterButtonClick(label) {
 						margin-bottom: 2px;
 						cursor: auto;
 
+						&::before {
+							content: '';
+							position: absolute;
+							top: 0;
+							left: 0;
+							width: 96px;
+							height: 4px;
+							background-color: #e6e6e6;
+							transform: rotate(29deg);
+							transform-origin: top left;
+							pointer-events: none;
+						}
+
 						.label-img {
 							position: absolute;
 							width: 32px;
