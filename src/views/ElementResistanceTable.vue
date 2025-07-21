@@ -70,7 +70,8 @@ const elementOptions = [
 		tooltipText: '不死',
 	},
 ]
-const activeElement = ref(undefined)
+const activeTargetElement = ref(undefined)
+const activeCastingElement = ref(undefined)
 const elementColumns = {
 	1: [
 		['100%','100%','100%','100%','100%','100%','100%','100%','90%','100%',],
@@ -137,7 +138,7 @@ function getCellClass(value) {
 }
 
 function onFilterButtonClick(label) {
-	activeElement.value = label
+	activeTargetElement.value = label
 
 	gtagTrackEvent('element_button_click', {
 		filter_type: label,
@@ -190,28 +191,28 @@ function onFilterButtonClick(label) {
 								:img-path="baseUrl + imgPath"
 								:img-alt="imgAlt"
 								:tooltip-text="tooltipText"
-								:is-active="false" />
+								:is-active="activeCastingElement === label" />
 						</div>
 					</div>
 
 					<div
-						class="column"
 						v-for="(
 							{label, imgPath, imgAlt, tooltipText}, rowIndex
 						) in elementOptions"
-						:key="'row-' + label">
+						:key="'row-' + label"
+						class="column">
 						<div class="cell label">
 							<FilterButton
 								:is-text-Shown="true"
 								:img-path="baseUrl + imgPath"
 								:img-alt="imgAlt"
 								:tooltip-text="tooltipText"
-								:is-active="activeElement === label"
+								:is-active="activeTargetElement === label"
 								@click="onFilterButtonClick(label)" />
 						</div>
 						<div
 							class="column-block"
-							:class="{active: activeElement === label}">
+							:class="{active: activeTargetElement === label}">
 							<div
 								v-for="(targetColumn, colIndex) in elementColumns[
 									selectedLevel
@@ -219,7 +220,16 @@ function onFilterButtonClick(label) {
 								:key="'cell-' + rowIndex + '-' + colIndex"
 								class="cell"
 								:class="getCellClass(targetColumn[rowIndex])"
-								@click="onFilterButtonClick(elementOptions[rowIndex].label)">
+								@mouseenter="(e)=> {
+									if(e.fromElement?.className.includes('active')) {
+										activeCastingElement = elementOptions[colIndex].label
+									}
+								}"
+								@mouseleave="activeCastingElement = undefined"
+								@click="()=> {
+									activeCastingElement = elementOptions[colIndex].label
+									onFilterButtonClick(elementOptions[rowIndex].label)
+								}">
 								{{ targetColumn[rowIndex] }}
 							</div>
 						</div>
