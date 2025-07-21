@@ -78,6 +78,7 @@ defineProps({
 	user-select: none;
 
 	&:hover {
+		color: #fff;
 		z-index: 1;
 
 		& .tooltip {

@@ -5,13 +5,15 @@ import {ElIcon} from 'element-plus'
 import {Setting} from '@element-plus/icons-vue'
 import {usePreferencesStore} from '../stores/preferences'
 import {gtagTrackEvent} from '../utils/gtagHelper'
+import {useRoute} from 'vue-router'
 
 const preferencesStore = usePreferencesStore()
 
 const baseUrl = import.meta.env.BASE_URL
+const route = useRoute()
+const isCurrentRoute = path => route.path === path
 
 const isPreferencesModalShown = ref(false)
-
 const preferences = ref({
 	isIconButton: false,
 })
@@ -28,14 +30,16 @@ const preferences = ref({
 				<router-link
 					to="/"
 					name="Home"
-					class="link">
+					class="link"
+					:class="{active: route.path === '/'}">
 					掉落物查詢
 				</router-link>
 				｜
 				<router-link
-					to="/attribute-table"
-					name="AttributeTable"
-					class="link">
+					to="/element-resistance-table"
+					name="ElementResistanceTable"
+					class="link"
+					:class="{active: route.path === '/element-resistance-table'}">
 					屬性相剋表
 				</router-link>
 			</nav>
@@ -111,7 +115,7 @@ const preferences = ref({
 		display: flex;
 		align-items: center;
 		margin: auto;
-		padding: 2px 40px;
+		padding: 0 40px;
 
 		@media (min-width: 576px) {
 			max-width: 540px;
@@ -131,12 +135,14 @@ const preferences = ref({
 
 		.name {
 			display: flex;
+			flex-shrink: 0;
 			justify-content: center;
 			align-items: center;
-			margin-right: 24px;
+			margin-right: 12px;
 			user-select: none;
 
 			img {
+				display: none;
 				width: 24px;
 				height: 24px;
 			}
@@ -146,8 +152,19 @@ const preferences = ref({
 				border-radius: 4px;
 				font-size: 12px;
 				font-weight: 400;
-				margin-left: 4px;
 				padding: 2px 8px;
+			}
+
+			@media (min-width: 576px) {
+				margin-right: 24px;
+
+				& img {
+					display: block;
+				}
+
+				& .text {
+					margin-left: 4px;
+				}
 			}
 		}
 
@@ -157,19 +174,39 @@ const preferences = ref({
 			justify-content: start;
 			align-items: center;
 			flex-grow: 1;
+			overflow: auto hidden;
 
 			.link {
-				display: none;
 				color: #e6e6e6;
 				text-decoration: none;
 				font-size: 14px;
 				line-height: 36px;
 				font-weight: bold;
+				word-break: keep-all;
 				cursor: pointer;
 
-				@media (min-width: 576px) {
-					display: block;
+				&.active {
+					color: #ffe333;
 				}
+			}
+
+			&::-webkit-scrollbar {
+				width: 4px;
+				height: 4px;
+				padding-top: 12px;
+				background: transparent;
+				visibility: hidden;
+			}
+
+			&::-webkit-scrollbar-thumb {
+				border-radius: 4px;
+				visibility: hidden;
+			}
+
+			&:hover::-webkit-scrollbar-thumb,
+			&:active::-webkit-scrollbar-thumb {
+				background: #98ae2a;
+				visibility: visible;
 			}
 		}
 
@@ -178,6 +215,9 @@ const preferences = ref({
 			display: flex;
 			align-items: center;
 			justify-content: end;
+			flex-grow: 1;
+			position: absolute;
+			right: 6px;
 
 			& > * {
 				width: 20px;
@@ -303,6 +343,11 @@ const preferences = ref({
 						}
 					}
 				}
+			}
+
+			@media (min-width: 576px) {
+				position: initial;
+				right: unset;
 			}
 		}
 	}

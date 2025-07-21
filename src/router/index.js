@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import AttributeTable from '../views/AttributeTable.vue'
+import ElementResistanceTable from '../views/ElementResistanceTable.vue'
 
 const routes = [
   {
@@ -9,9 +9,9 @@ const routes = [
     component: Home,
   },
   {
-    path: '/attribute-table',
-    name: 'AttributeTable',
-    component: AttributeTable,
+    path: '/element-resistance-table',
+    name: 'ElementResistanceTable',
+    component: ElementResistanceTable,
   },
 ]
 

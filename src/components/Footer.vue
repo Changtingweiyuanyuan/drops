@@ -56,6 +56,7 @@ onUnmounted(() => {
 	background: #606753;
 	color: #e6e6e6;
 	border-bottom: 1.5px solid #b2a99f;
+	z-index: 2;
 
 	.content {
 		min-height: 36px;

@@ -1,0 +1,34 @@
+export const RACES = {
+	ALL: 'ALL',
+	ANGEL: 'ANGEL',
+	AQUATIC: 'AQUATIC',
+	BEAST: 'BEAST',
+	DEMON: 'DEMON',
+	DRAGON: 'DRAGON',
+	FORMLESS: 'FORMLESS',
+	HUMANOID: 'HUMANOID',
+	INSECT: 'INSECT',
+	PLANT: 'PLANT',
+	UNDEAD: 'UNDEAD',
+}
+
+export const ELEMENTS = {
+	ALL: 'ALL',
+	NONE: 'NONE',
+	DARK: 'DARK',
+	EARTH: 'EARTH',
+	FIRE: 'FIRE',
+	GHOST: 'GHOST',
+	HOLY: 'HOLY',
+	POISON: 'POISON',
+	UNDEAD: 'UNDEAD',
+	WATER: 'WATER',
+	WIND: 'WIND',
+}
+
+export const SIZES = {
+	ALL: 'ALL',
+	SMALL: 'SMALL',
+	MEDIUM: 'MEDIUM',
+	LARGE: 'LARGE',
+}
