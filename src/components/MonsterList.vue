@@ -9,6 +9,8 @@ defineProps({
 const itemsDatabase = ref(null)
 const isLoadingItems = ref(false)
 const assetsUrl = import.meta.env.VITE_ASSETS_URL;
+const notFoundImageUrl = `url(${assetsUrl}/images/ui/not-found.png)`;
+
 const ensureItemsDatabase = async () => {
 	if (itemsDatabase.value || isLoadingItems.value) return
 
@@ -91,7 +93,7 @@ provide('ensureItemsDatabase', ensureItemsDatabase)
 			transform: translate(-50%, 0);
 			width: 36px;
 			height: 36px;
-			background-image: url('/twroz-drop/images/ui/not-found.png');
+			background-image: v-bind(notFoundImageUrl);
 			background-repeat: no-repeat;
 			background-size: contain;
 		}

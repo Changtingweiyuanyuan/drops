@@ -9,10 +9,15 @@ const routes = [
     component: Home,
   },
   {
-    path: '/element-resistance-table',
+    path: '/elements',
     name: 'ElementResistanceTable',
     component: ElementResistanceTable,
   },
+  { 
+    path: '/:pathMatch(.*)*', 
+    name: 'NotFound', 
+    redirect: '/' 
+  }
 ]
 
 const router = createRouter({

@@ -36,10 +36,10 @@ const preferences = ref({
 				</router-link>
 				｜
 				<router-link
-					to="/element-resistance-table"
-					name="ElementResistanceTable"
+					to="/elements"
+					name="elements"
 					class="link"
-					:class="{active: route.path === '/element-resistance-table'}">
+					:class="{active: route.path === '/elements'}">
 					屬性相剋表
 				</router-link>
 			</nav>

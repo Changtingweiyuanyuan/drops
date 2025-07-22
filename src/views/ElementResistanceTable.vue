@@ -7,7 +7,7 @@ import {gtagTrackEvent} from '../utils/gtagHelper'
 const selectedLevel = ref(1)
 const levels = [1, 2, 3, 4]
 
-const baseUrl = import.meta.env.BASE_URL
+const assetsUrl = import.meta.env.VITE_ASSETS_URL
 const elementOptions = [
 	{
 		label: ELEMENTS.NONE,
@@ -176,10 +176,10 @@ function onFilterButtonClick(label) {
 					<div class="column">
 						<div class="cell label">
 							<img
-								:src="`${baseUrl}images/ui/bow.png`"
+								:src="`${assetsUrl}/images/ui/bow.png`"
 								class="label-img casting" />
 							<img
-								:src="`${baseUrl}images/ui/target.png`"
+								:src="`${assetsUrl}/images/ui/target.png`"
 								class="label-img target" />
 						</div>
 						<div
@@ -188,7 +188,7 @@ function onFilterButtonClick(label) {
 							class="cell header">
 							<FilterButton
 								:is-text-Shown="true"
-								:img-path="baseUrl + imgPath"
+								:img-path="assetsUrl + imgPath"
 								:img-alt="imgAlt"
 								:tooltip-text="tooltipText"
 								:is-active="activeCastingElement === label" />
@@ -204,7 +204,7 @@ function onFilterButtonClick(label) {
 						<div class="cell label">
 							<FilterButton
 								:is-text-Shown="true"
-								:img-path="baseUrl + imgPath"
+								:img-path="assetsUrl + imgPath"
 								:img-alt="imgAlt"
 								:tooltip-text="tooltipText"
 								:is-active="activeTargetElement === label"

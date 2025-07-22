@@ -5,7 +5,7 @@ import {gtagTrackEvent} from '../utils/gtagHelper'
 
 const preferencesStore = usePreferencesStore()
 
-const baseUrl = import.meta.env.BASE_URL
+const assetsUrl = import.meta.env.VITE_ASSETS_URL
 
 defineProps({
 	searchQuery: String,
@@ -224,7 +224,7 @@ function onFilterButtonClick({emitEvent, label}) {
 						race.label === RACES.ALL ? race.label.toUpperCase() : undefined
 					"
 					:img-path="
-						race.label !== RACES.ALL ? baseUrl + race.imgPath : undefined
+						race.label !== RACES.ALL ? assetsUrl + race.imgPath : undefined
 					"
 					:img-alt="race.label !== RACES.ALL ? race.imgAlt : undefined"
 					:tooltip-text="
@@ -250,7 +250,7 @@ function onFilterButtonClick({emitEvent, label}) {
 					:is-text-Shown="!preferencesStore.isIconButton"
 					:text="el.label === ELEMENTS.ALL ? el.label.toUpperCase() : undefined"
 					:img-path="
-						el.label !== ELEMENTS.ALL ? baseUrl + el.imgPath : undefined
+						el.label !== ELEMENTS.ALL ? assetsUrl + el.imgPath : undefined
 					"
 					:img-alt="el.label !== ELEMENTS.ALL ? el.imgAlt : undefined"
 					:tooltip-text="el.label !== ELEMENTS.ALL ? el.tooltipText : undefined"
